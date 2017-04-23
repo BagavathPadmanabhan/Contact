@@ -1,0 +1,84 @@
+<!doctype html>
+
+<html lang="en">
+   <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact</title>
+        <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="CSS/styles.css">
+    </head>
+    <body>
+
+      <form method="POST" action="mailto:test@example.com" enctype="text/plain">
+      
+        <h1>Contact</h1>
+        
+        <fieldset>
+          <legend>Contact info</legend>
+          <label for="fname">First Name:</label>
+          <input type="text" id="fname" name="first_name" tabindex="1" accesskey="f">
+          
+           <label for="lname">Last Name:</label>
+          <input type="text" id="lname" name="last_name" tabindex="2" accesskey="l">
+          
+          <label for="mail">Email:</label>
+          <input type="email" id="mail" name="user_email" tabindex="3" accesskey="m">
+          
+          <label for="phone">Phone:</label>
+          <input type="number" id="phone" name="user_phone" tabindex="4" accesskey="p">
+          
+          <label>Preferred Contact:</label>
+          <input type="radio" id="phone" value="phone" name="precon" tabindex="5" accesskey="c"><label for="phone" class="light">Phone</label> &nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="email" value="email" name="precon" tabindex="6" accesskey="e"><label for="email" class="light">E-Mail</label> &nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="none" value="none" name="precon" tabindex="7" accesskey="n"><label for="none" class="light">None</label>
+          
+        </fieldset>
+        
+        <fieldset>
+         <legend>Feedback</legend>
+          <label for="rating">Please rate this website(1 and 10):</label>
+          <input type="number" min="1" max="10" tabindex="8" accesskey="r">
+          
+          <label for="comments">Comments:</label>
+          <textarea id="comments" name="comments" tabindex="9" accesskey="c"></textarea>
+        </fieldset>
+        <button id="submit" type="submit" tabindex="10" accesskey="E">Submit</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="reset" type="reset" tabindex="11" accesskey="D">Reset</button>
+       
+      </form>
+    </body>
+    
+    <script>
+   var form = document.getElementsByTagName('form')[0];
+   form.addEventListener('submit',contact,false);
+   function contact(e) {
+      // Prevent Default Form Submission
+      e.preventDefault();
+
+      var target = e.target || e.srcElement;
+      var i = 0;
+      var message = '';
+
+      // Loop Through All Input Fields
+      for(i = 0; i < target.length; ++i) {
+         // Check to make sure it's a value. Don't need to include Buttons
+         if(target[i].type != 'text' && target[i].type != 'textarea') {
+                // Skip to next input since this one doesn't match our rules
+            continue;
+         }
+
+         // Add Input Name and value followed by a line break
+         message += target[i].name + ': ' + target[i].value + "\r\n";
+      }
+      // Modify the hidden body input field that is required for the mailto: scheme
+      target.elements["body"].value = message;
+
+      // Submit the form since we previously stopped it. May cause recursive loop in some browsers? Should research this.
+      this.submit();
+   }
+	</script>
+	
+</html>
+
+
